@@ -6,19 +6,22 @@ import com.tictactoe.Assets.GameAssets;
 public class PVP {
 
     private static boolean IsgameEnd() {
-        GameWinnerStatus status = GameAssets.Rule.getGameWinner(GameAssets.board);
+        GameWinnerStatus status = GameAssets.Rule.getGameWinner();
         switch (status) {
             case GameWinnerStatus.PLAYER1:
+                GameUI.displayBoard();
                 GameAssets.player.win();
                 GameAssets.opponent.loss();
                 GameUI.announceWinner(GameAssets.player);
                 break;
             case GameWinnerStatus.PLAYER2:
+                GameUI.displayBoard();
                 GameAssets.opponent.win();
                 GameAssets.player.loss();
                 GameUI.announceWinner(GameAssets.opponent);
                 break;
             case GameWinnerStatus.DRAW:
+                GameUI.displayBoard();
                 GameAssets.player.draw();
                 GameAssets.opponent.draw();
                 GameUI.matchDrawMsg();
@@ -40,8 +43,8 @@ public class PVP {
     }
 
     private static void setStage() {
-        GameUI.displayBoard(GameAssets.board);
-        GameUI.displayPossibleMoves(GameAssets.board);
+        GameUI.displayBoard();
+        GameUI.displayPossibleMoves();
     }
 
     private static void player1Turn() {

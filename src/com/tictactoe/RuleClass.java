@@ -1,104 +1,106 @@
 package com.tictactoe;
 
+import com.tictactoe.Assets.GameAssets;
+
 public class RuleClass {
 
-    private byte rowWinCheck(Board board){
+    private Symbol rowWinCheck(){
         boolean lineComp ;
-        for (byte row = 0; row < board.getSize(); row++) {
-            if (board.getBoard()[row][0] == 0) {
+        for (byte row = 0; row < GameAssets.board.getSize(); row++) {
+            if (GameAssets.board.getBoard()[row][0] == null) {
                 continue;
             }
             lineComp = false;
-            for (byte col = 0; col < board.getSize() - 1; col++) {
-                if (board.getBoard()[row][col] != board.getBoard()[row][col+1]) {
+            for (byte col = 0; col < GameAssets.board.getSize() - 1; col++) {
+                if (GameAssets.board.getBoard()[row][col] != GameAssets.board.getBoard()[row][col+1]) {
                     lineComp = false;
                     break;
                 }
                 lineComp = true;
             }
             if (lineComp) {
-                return board.getBoard()[row][0];
+                return GameAssets.board.getBoard()[row][0];
             }
         }
-        return 0;
+        return null;
     }
 
-    private byte colWinCheck(Board board){
+    private Symbol colWinCheck(){
 
         boolean lineComp ;
-        for (byte col = 0; col < board.getSize(); col++) {
-            if (board.getBoard()[0][col] == 0) {
+        for (byte col = 0; col < GameAssets.board.getSize(); col++) {
+            if (GameAssets.board.getBoard()[0][col] == null) {
                 continue;
             }
             lineComp = false;
-            for (byte row = 0; row < board.getSize() - 1; row++) {
-                if (board.getBoard()[row][col] != board.getBoard()[row+1][col]) {
+            for (byte row = 0; row < GameAssets.board.getSize() - 1; row++) {
+                if (GameAssets.board.getBoard()[row][col] != GameAssets.board.getBoard()[row+1][col]) {
                     lineComp = false;
                     break;
                 }
                 lineComp = true;
             }
             if (lineComp) {
-                return board.getBoard()[0][col];
+                return GameAssets.board.getBoard()[0][col];
             }
         }
-        return 0;
+        return null;
     }
 
-    private byte rightDiagonalWinCheck(Board board){
-        if (board.getBoard()[0][0] == 0){
-            return 0;
+    private Symbol rightDiagonalWinCheck(){
+        if (GameAssets.board.getBoard()[0][0] == null){
+            return null;
         }
-        for (byte row = 0; row < board.getSize() - 1; row++) {
-            if (board.getBoard()[row][row] != board.getBoard()[row+1][row+1]) {
-                return 0;
+        for (byte row = 0; row < GameAssets.board.getSize() - 1; row++) {
+            if (GameAssets.board.getBoard()[row][row] != GameAssets.board.getBoard()[row+1][row+1]) {
+                return null;
             }
         }
-        return board.getBoard()[0][0];
+        return GameAssets.board.getBoard()[0][0];
     }
 
-    private byte leftDiagonalWinCheck(Board board){
-        if (board.getBoard()[0][board.getSize()-1] == 0){
-            return 0;
+    private Symbol leftDiagonalWinCheck(){
+        if (GameAssets.board.getBoard()[0][GameAssets.board.getSize()-1] == null){
+            return null;
         }
-        for (byte row = (byte) (board.getSize()-1); row > 0; row--) {
-            if (board.getBoard()[board.getSize() - row - 1][row] != board.getBoard()[board.getSize() - row][row-1]) {
-                return 0;
+        for (byte row = (byte) (GameAssets.board.getSize()-1); row > 0; row--) {
+            if (GameAssets.board.getBoard()[GameAssets.board.getSize() - row - 1][row] != GameAssets.board.getBoard()[GameAssets.board.getSize() - row][row-1]) {
+                return null;
             }
         }
-        return board.getBoard()[board.getSize()-1][board.getSize()-1];
+        return GameAssets.board.getBoard()[GameAssets.board.getSize()-1][GameAssets.board.getSize()-1];
     }
 
-    private byte winCheck(Board board){
-        byte check;
-        check = rowWinCheck(board);
-        if (check != 0){
+    private Symbol winCheck(){
+        Symbol check;
+        check = rowWinCheck();
+        if (check != null){
             return check;
         }
-        check = colWinCheck(board);
-        if (check != 0){
+        check = colWinCheck();
+        if (check != null){
             return check;
         }
-        check = rightDiagonalWinCheck(board);
-        if (check != 0){
+        check = rightDiagonalWinCheck();
+        if (check != null){
             return check;
         }
-        check = leftDiagonalWinCheck(board);
-        if (check != 0){
+        check = leftDiagonalWinCheck();
+        if (check != null){
             return check;
         }
-        return 0;
+        return null;
     }
 
-    public GameWinnerStatus getGameWinner(Board board){
-        byte check = winCheck(board);
-        if (check == 0 && board.isComplete()){
+    public GameWinnerStatus getGameWinner(){
+        Symbol check = winCheck();
+        if (check == null && GameAssets.board.isComplete()){
             return GameWinnerStatus.DRAW;
         }
-        if (check == 1){
+        if (check == GameAssets.player.getSymbol()){
             return GameWinnerStatus.PLAYER1;
         }
-        if (check == 2){
+        if (check == GameAssets.opponent.getSymbol()){
         return GameWinnerStatus.PLAYER2;
         }
         return GameWinnerStatus.IN_PROGRESS;

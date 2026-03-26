@@ -2,21 +2,20 @@ package com.tictactoe;
 
 import com.tictactoe.Assets.GameAssets;
 
+
 public class GameUI {
 
 
-    public static void displayBoard(Board board){
-        byte num;
-        for (byte row = 0; row < board.getSize(); row++) {
-            System.out.print(" | ");
-            for (byte col = 0; col < board.getSize(); col++){
-                num = board.getBoard()[row][col];
-                if (num == 0){
+    public static void displayBoard(){
+        Symbol symbol;
+        for (byte row = 0; row < GameAssets.board.getSize(); row++) {
+            System.out.print("           | ");
+            for (byte col = 0; col < GameAssets.board.getSize(); col++){
+                symbol = GameAssets.board.getBoard()[row][col];
+                if (symbol == null){
                     System.out.print("   ");
-                } else if (num == 1) {
-                    System.out.print(" " + Symbol.O.toString()+ " ");
                 } else {
-                    System.out.print(" "+ Symbol.X.toString()+ " ");
+                    System.out.print(" "+ symbol.toString()+ " ");
                 }
             }
             System.out.println(" | ");
@@ -37,9 +36,9 @@ public class GameUI {
                 , winner.toString());
     }
 
-    public static void displayPossibleMoves(Board board){
+    public static void displayPossibleMoves(){
         System.out.println("POSSIBLE MOVES : ");
-        for (byte [] arr : board.getPossibleMoves()){
+        for (byte [] arr : GameAssets.board.getPossibleMoves()){
             System.out.print(arr[0] + " ");
             System.out.println(arr[1]);
         }

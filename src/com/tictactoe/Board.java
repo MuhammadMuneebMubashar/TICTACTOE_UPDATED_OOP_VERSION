@@ -10,7 +10,7 @@ public class Board {
 
     private byte size;
     private ArrayList<byte[]> possibleMoves ;
-    private byte [] [] board;
+    private Symbol [] [] board;
 
     public Board(byte size) {
         this.size = size;
@@ -32,7 +32,7 @@ public class Board {
     }
 
     private void generateBoard(byte size){
-        board = new byte[size][size];
+        board = new Symbol[size][size];
     }
 
     private void setPossibleMoves(byte size){
@@ -52,13 +52,13 @@ public class Board {
         return possibleMoves;
     }
 
-    public byte[][] getBoard() {
+    public Symbol [][] getBoard() {
         return board;
     }
 
     public void setPosition(byte [] position, Symbol symbol) {
         isPositionValid(position);
-        board[position[0]][position[1]] = (byte) ((symbol == Symbol.O) ? 1 : 2);
+        board[position[0]][position[1]] = symbol;
         deletePossiblePosition(position);
     }
 
