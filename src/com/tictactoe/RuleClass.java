@@ -91,16 +91,17 @@ public class RuleClass {
     }
 
     public GameWinnerStatus getGameWinner(Board board){
-        if (board.isComplete()){
-            byte check = winCheck(board);
-            if (check == 0){
-                return GameWinnerStatus.DRAW;
-            }
-            if (check == 1){
-                return GameWinnerStatus.PLAYER1;
-            }
-            return GameWinnerStatus.PLAYER2;
+        byte check = winCheck(board);
+        if (check == 0 && board.isComplete()){
+            return GameWinnerStatus.DRAW;
+        }
+        if (check == 1){
+            return GameWinnerStatus.PLAYER1;
+        }
+        if (check == 2){
+        return GameWinnerStatus.PLAYER2;
         }
         return GameWinnerStatus.IN_PROGRESS;
     }
+
 }

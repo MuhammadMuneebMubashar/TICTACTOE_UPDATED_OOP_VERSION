@@ -1,5 +1,7 @@
 package com.tictactoe;
 
+import com.tictactoe.Assets.GameAssets;
+
 public class GameUI {
 
 
@@ -25,12 +27,14 @@ public class GameUI {
         System.out.println("Welcome to TacToe Game !");
     }
 
-    public static void gameOverMsg(){
-        System.out.println("Game Over !");
+    public static void matchDrawMsg(){
+        System.out.println("Match draw !");
     }
 
     public static void announceWinner(Player winner){
-        System.out.println("Winner is \n" + winner.toString());
+        System.out.printf("Winner is : %s%n%s",
+                winner.getSymbol()
+                , winner.toString());
     }
 
     public static void displayPossibleMoves(Board board){
@@ -42,16 +46,15 @@ public class GameUI {
     }
 
     public static void player1Turn(){
-        System.out.println("Player 1 Turn ...... ");
+        System.out.printf("%s Turn ...... %s%n" ,
+                GameAssets.player.getPlayerName(),
+                GameAssets.player.getSymbol().toString());
     }
 
     public static void player2Turn(){
-        System.out.println("Player 2 Turn ...... ");
-    }
-
-    public static void minimaxTurn(){
-        System.out.println("Minimax Turn ...... ");
-        System.out.println("Minimax is thinking ...... ");
+        System.out.printf("%s Turn ...... %s%n" ,
+                GameAssets.opponent.getPlayerName(),
+                GameAssets.opponent.getSymbol().toString());
     }
 
     public static void thankYouMsg(){

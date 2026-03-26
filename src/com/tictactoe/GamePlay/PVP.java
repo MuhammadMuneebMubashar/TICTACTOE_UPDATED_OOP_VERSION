@@ -9,13 +9,19 @@ public class PVP {
         GameWinnerStatus status = GameAssets.Rule.getGameWinner(GameAssets.board);
         switch (status) {
             case GameWinnerStatus.PLAYER1:
+                GameAssets.player.win();
+                GameAssets.opponent.loss();
                 GameUI.announceWinner(GameAssets.player);
                 break;
             case GameWinnerStatus.PLAYER2:
+                GameAssets.opponent.win();
+                GameAssets.player.loss();
                 GameUI.announceWinner(GameAssets.opponent);
                 break;
             case GameWinnerStatus.DRAW:
-                GameUI.gameOverMsg();
+                GameAssets.player.draw();
+                GameAssets.opponent.draw();
+                GameUI.matchDrawMsg();
                 break;
             default:
                 return false;
@@ -24,10 +30,13 @@ public class PVP {
     }
 
     private static void startPlayers() {
-        String name = UserInput.userNameInput();
-        GameAssets.player = new Player(name, Symbol.O);
-        name = UserInput.userNameInput();
-        GameAssets.opponent = new Player(name, Symbol.X);
+        String name1 = UserInput.playerNameInput();
+        String name2 = UserInput.playerNameInput();
+        if (name1.equals(name2)) {
+            name2+='I';
+        }
+        GameAssets.player = new Player(name1, Symbol.O);
+        GameAssets.opponent = new Player(name2, Symbol.X);
     }
 
     private static void setStage() {
@@ -38,14 +47,14 @@ public class PVP {
     private static void player1Turn() {
         setStage();
         GameUI.player1Turn();
-        byte[] move = UserInput.UserMoveInput(GameAssets.board);
+        byte[] move = UserInput.userMoveInput(GameAssets.board);
         GameAssets.board.setPosition(move, Symbol.O);
     }
 
     private static void opponentTurn() {
         setStage();
         GameUI.player2Turn();
-        byte[] move = UserInput.UserMoveInput(GameAssets.board);
+        byte[] move = UserInput.userMoveInput(GameAssets.board);
         GameAssets.board.setPosition(move, Symbol.X);
     }
 

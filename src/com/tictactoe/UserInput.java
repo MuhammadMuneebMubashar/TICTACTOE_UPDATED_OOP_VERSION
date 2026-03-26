@@ -1,101 +1,125 @@
 package com.tictactoe;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class UserInput {
-    private static Scanner input = new Scanner(System.in);
 
 
+    private static final  Scanner input = new Scanner(System.in);
+    private static final byte opt1 = 1;
+    private static final byte opt2 = 2;
+
+    /**
+     * Prompts the player to choose a game mode.
+     *
+     * @return selected {@link GameMode}
+     */
     public static GameMode gameModeInput(){
         System.out.println("Hello !");
-        System.out.println("Let's start the game ! Choose game mode :");
+        System.out.println("Let's start the game !");
         System.out.println("1. Player vs Player");
         System.out.println("2. Player vs AI");
-        int gameMode;
-        while (true){
+        int gameMode = 0;
+        do {
             System.out.println(" >>>> : ");
-            gameMode = input.nextInt();
-            if (gameMode == 1 || gameMode == 2){
-                input.next();
-                return (gameMode == 1)
-                        ? GameMode.Player_VS_Player:
-                        GameMode.Player_VS_AI;
-            }
-        }
-
+            gameMode = numberInput();
+        } while (gameMode != opt1 && gameMode != opt2);
+        return (gameMode == opt1)
+                ? GameMode.Player_VS_Player:
+                GameMode.Player_VS_AI;
     }
+
+    /**
+     * Prompts the player to enter a non-blank name.
+     *
+     * @return validated player name
+     */
     public static String playerNameInput(){
         String x = "";
-        while (true){
-            if (x.isBlank()){
-                System.out.println("Enter your name : ");
-                x = input.nextLine();
-            }else {
-                return x;
-            }
-        }
+        do{
+            System.out.print("Hey champ ! Enter your name : ");
+            x = input.nextLine().trim();
+        }while (x.isBlank());
+        return x;
     }
 
-
-    public static byte [] UserMoveInput(Board board){
-        byte [] x = new byte[2];
-        while (true){
+    /**
+     * Prompts for a valid board position (row and column).
+     *
+     * @param board current game board used for position validation
+     * @return array containing row and column indexes
+     */
+    public static byte [] userMoveInput(Board board){
+        byte [] x = {-1 , -1};
+        do {
             System.out.println("Enter Row and column : ");
             System.out.print("ROW >>> : ");
-            x[0] = input.nextByte();
+            x[0] = numberInput();
             System.out.print("COLUMN >>> : ");
-            x[1] = input.nextByte();
-            if (board.isPositionValid(x)){
-                input.next();
-                return x;
-            }
-            System.out.println("Consider possible moves !");
-        }
+            x[1] =  numberInput();
+        } while (! board.isPositionValid(x));
+
+        return x;
     }
 
-    public static String userNameInput(){
-        String x = "";
-        while (true){
-            if (x.isBlank()){
-                System.out.print("Please enter your name : ");
-                x =  input.nextLine();
-            }else{
-                return x;
-            }
-        }
-    }
-
+    /**
+     * Prompts for a board size within allowed limits.
+     *
+     * @return validated board size
+     */
     public static byte boardSizeInput(){
-        byte x ;
-        while (true){
-            System.out.println("Enter board size between 3 - 20: ");
-            x = input.nextByte();
-            if (x >= 3 && x <= 20){
-                input.next();
-                return x;
-            }
-        }
+        byte x = 0;
+        do {
+            System.out.printf("Enter board size between : %d - %d%n",
+                    Board.minBoardSize, Board.maxBoardSize);
+            x = numberInput();
+        } while (x < Board.minBoardSize || x > Board.maxBoardSize);
+        return x;
     }
 
+    /**
+     * Asks whether a new game should start.
+     *
+     * @return 1 for yes, 2 for no
+     */
     public static byte newGameInput(){
-        byte x;
-        while (true){
-            System.out.println("Do you want to play again ? (1 for yes, 0 for no) : ");
-            x = input.nextByte();
-            if (x == 1 ||x == 0){
-                input.next();
-                return x;
-            }
-        }
+        byte x = 0;
+        do{
+            System.out.println("Do you want to play again ? (1 for yes, 2 for no) : ");
+            x = numberInput();
+        } while (x!= opt1 && x != opt2);
+        return x;
     }
+
+    /**
+     * Asks whether players should be changed before the next game.
+     *
+     * @return {@code true} if players should be changed, otherwise {@code false}
+     */
     public static boolean newPlayerInput(){
-        boolean x;
-        while (true){
-            System.out.println("Do you wanto change player ? true/false : ");
-            if (input.hasNextBoolean()){
-                x = input.nextBoolean();
-                return x;
-            }
+        byte x = 0;
+        do {
+            System.out.println("Do you wanto change player ? 1 . Yes\n 2 . No\n: ");
+             x = numberInput();
+        } while (x != opt1 && x != opt2);
+        return x == opt1;
+    }
+
+    /**
+     * Reads a numeric value as a byte from input.
+     *
+     * @return entered number, or {@code -1} when input is invalid
+     */
+    private static byte numberInput(){
+        byte x = -1;
+        try{
+            x = input.nextByte();
+        }catch (InputMismatchException e){
+            System.out.println("Wrong input");
         }
+        // Consume the remaining input buffer (including invalid tokens).
+        input.nextLine();
+        return x;
     }
 }

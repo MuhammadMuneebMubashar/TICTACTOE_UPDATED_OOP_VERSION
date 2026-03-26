@@ -4,10 +4,6 @@ import com.tictactoe.Assets.GameAssets;
 
 public class GameEngine {
 
-    public void resetStage(){
-        GameAssets.board = null;
-    }
-
     public void playGame(){
         GameUI.welcomeMsg();
         GameMode mode;

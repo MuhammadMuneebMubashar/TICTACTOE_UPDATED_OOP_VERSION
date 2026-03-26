@@ -2,21 +2,16 @@ package com.tictactoe;
 
 public class Player {
 
-    protected String playerName;
-    protected int draws;
-    protected int wins;
-    protected int losses;
-    protected int totalMatches;
-    protected boolean turn;
+    private String playerName;
+    private int draws;
+    private int wins;
+    private int losses;
+    private int totalMatches;
 
-    protected Symbol symbol;
+    private Symbol symbol;
 
     public Player(String playerName, Symbol symbol) {
-        if (playerName.isBlank()){
-            this.playerName = "Anonymous";
-        }else{
-            this.playerName = playerName;
-        }
+        this.playerName = playerName;
         this.symbol = symbol;
     }
 
@@ -40,6 +35,10 @@ public class Player {
         return totalMatches;
     }
 
+    public Symbol getSymbol() {
+        return symbol;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -53,21 +52,29 @@ public class Player {
         sb.append(getLosses());
         sb.append("\nWins: ");
         sb.append(getWins());
+        sb.append("\n");
         return sb.toString();
     }
 
+    private void incTotalMatches(){
+        totalMatches++;
+    }
     public void draw(){
         draws++;
+        incTotalMatches();
     }
     public void win(){
         wins++;
+        incTotalMatches();
     }
     public void loss(){
         losses++;
+        incTotalMatches();
     }
     public void clearStats(){
         draws = 0;
         wins = 0;
         losses = 0;
+        totalMatches = 0;
     }
 }

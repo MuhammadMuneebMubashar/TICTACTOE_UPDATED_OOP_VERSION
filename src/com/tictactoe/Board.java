@@ -5,6 +5,8 @@ import java.util.Arrays;
 
 public class Board {
 
+    public static byte minBoardSize = 3;
+    public static byte maxBoardSize = 20;
 
     private byte size;
     private ArrayList<byte[]> possibleMoves ;
@@ -14,14 +16,6 @@ public class Board {
         this.size = size;
         generateBoard(size);
         setPossibleMoves(size);
-    }
-
-    public boolean isSizeValid(byte size){
-
-        byte minSize = 3;
-        byte maxSize = 30;
-
-        return (size >= minSize && size <= maxSize);
     }
 
     public boolean isPositionValid(byte [] position){
